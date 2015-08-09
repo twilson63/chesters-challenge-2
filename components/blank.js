@@ -8,6 +8,6 @@ function component (state, update) {
 }
 
 function render (state) {
-  //return h('img', { src: 'images/spacer.gif', style: { height: '100%', width: '100%'}})
-  return h('p', ' ')
+  return h('img', { src: 'images/spacer.gif' })
+  //return h('p', ' ')
 }

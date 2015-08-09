@@ -1,7 +1,6 @@
 var h = require('xfx').h
 var xtend = require('xfx').xtend
 var _ = require('underscore')
-var c$$ = require('skeleton')
 
 var blank = require('./blank')
 var chester = require('./chester')

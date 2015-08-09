@@ -2,8 +2,6 @@ var h = require('xfx').h
 var xtend = require('xfx').xtend
 
 var _ = require('underscore')
-var c$$ = require('./css')
-
 var cell = require('./cell')
 
 component.render = render

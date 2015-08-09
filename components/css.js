@@ -1,2 +1,1 @@
-//module.exports = require('skeleton')
-module.exports = require('bootstrap')
+module.exports = require('skeleton')

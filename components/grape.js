@@ -8,5 +8,5 @@ function component (state, update) {
 }
 
 function render (state) {
-  return h('img', { src: 'images/grape.jpg', style: { height: '100%', width: '100%'}})
+  return h('img', { src: 'images/grape.jpg'})
 }
