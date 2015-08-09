@@ -6,6 +6,9 @@ var pin = require('linchpin')
 var nav = require('./nav')
 var board = require('./board')
 
+var c$$ = require('./css')
+
+
 component.render = render
 module.exports = component
 
@@ -30,9 +33,14 @@ function component (state, update) {
 }
 
 function render (state) {
+  var boardRender = board.view(c$$)
   return h('div', [
-    h('h1', 'Chesters Challenge'),
-    nav.render(state),
-    board.render(state)
+    h('div.container', [
+      h('.row', [
+        h('h1', 'Chesters Challenge 2'),
+        h('.u-pull-right', nav.render(state))
+      ])
+    ]),
+    boardRender(state)
   ])
 }

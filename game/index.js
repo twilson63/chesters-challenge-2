@@ -9,8 +9,8 @@ var grapes = 0
 
 function game () {
 
-  var board = _.flatten(_.times(10, function (row) {
-    return _.times(10, function (col) {
+  var board = _.flatten(_.times(12, function (row) {
+    return _.times(12, function (col) {
       return { row: row, col: col, value: isGrape() }
     })
   }),3)

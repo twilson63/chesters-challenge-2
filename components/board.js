@@ -5,9 +5,12 @@ var xtend = app.xtend
 var _ = require('underscore')
 var pin = require('linchpin')
 
+
 var g = require('../game')
+var row = require('./row')
 
 component.render = render
+component.view = view
 module.exports = component
 
 function component (state, update) {
@@ -15,7 +18,7 @@ function component (state, update) {
   state.board.game = g
   state.board.board = g()
   state.board.cursor = { row: 0, col: 0}
-
+  state = xtend(state, row(state, update))
   state.actions = xtend(state.actions, actions(update))
 
   pin.on('app/keydown', function (key) {
@@ -39,22 +42,19 @@ function actions (update) {
   }
 }
 
+var c$$ = {
+  container: 'table.table'
+}
+
+function view(css) {
+  c$$ = css
+  return render
+}
+
 function render (state) {
-  console.log(state.board.cursor)
-  return h('div', [
-    h('table',
-      _(10).times(function (row) {
-        return h('tr',
-          _(10).times(function (col) {
-            var value = _.findWhere(state.board.board, { row: row, col: col}).value
-            if (state.board.cursor.row === row && state.board.cursor.col === col) {
-              return h('td', 'C')
-            }
-            return h('td', value)
-          })
-        )
-      })
-    ),
-    h('h1', 'Grapes: ' + state.board.cursor.grapes || '0')
-  ])
+  var rowRender = row.view(c$$)
+  var createRow = function (r) {
+    return rowRender(state, r)
+  }
+  return h(c$$.container, _(12).times(createRow))
 }
