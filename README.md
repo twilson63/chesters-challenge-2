@@ -6,4 +6,11 @@ There is a 10 x 10 grid that can randomly have grapes in each cell, and the poin
 
 ## Step 1
 
+## Running the Game
+
+```
+npm i wzrd -g
+wzrd index.js
+```
+
 
