@@ -1,7 +1,9 @@
-var d = require('xfx').delegator
-var h = require('xfx').h
-var xtend = require('xfx').xtend
-var pin = require('linchpin')
+var app = require('xfx')
+var h = require('virtual-hyperscript-hook')(app.h)
+var update = app.update
+var bindState = app.bindState
+var sendKey = app.sendKey
+//var pin = require('linchpin')
 
 var nav = require('./nav')
 var board = require('./board')
@@ -12,24 +14,28 @@ var c$$ = require('./css')
 component.render = render
 module.exports = component
 
-function component (state, update) {
-  state = xtend(
-    state,
-    nav(state, update),
-    board(state, update)
-  )
+function component () {
+  var state = {
+    nav: nav(),
+    board: board()
+  }
 
-  state.actions = xtend(state.actions, {})
-
-  d.addGlobalEventListener("keydown", function (ev) {
-    if (~['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].indexOf(ev.key)) {
-      pin.emit('app/keydown', ev.key)
-      //state.board.key = ev.key
-      //update(state)
-    }
-  })
-
+  state.actions = bindState(actions(), state)
+  
   return state
+}
+
+function actions () {
+  return {
+    move: function (state, direction) {
+      var move = state.board.game.move
+      var board = state.board.board
+      state.board.cursor = move(direction, board)
+      console.log(state.board.cursor)
+      state.key = direction
+      update()
+    }
+  }
 }
 
 function render (state) {
@@ -38,9 +44,19 @@ function render (state) {
     h('div.container', [
       h('.row', [
         h('h1', 'Chesters Challenge 2'),
-        h('.u-pull-right', nav.render(state))
+        h('input', {  
+          'ev-keydown': [
+            sendKey(state.actions.move, 'down', { key: 40 }),
+            sendKey(state.actions.move, 'up', { key: 38 }),
+            sendKey(state.actions.move, 'left', { key: 37}),
+            sendKey(state.actions.move, 'right', { key: 39})
+          ],
+          placeholder: 'click here and press arrow keys',
+          value: state.key
+        }),
+        h('.u-pull-right', nav.render(state.nav))
       ])
     ]),
-    boardRender(state)
+    boardRender(state.board)
   ])
 }

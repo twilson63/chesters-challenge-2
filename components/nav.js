@@ -1,6 +1,6 @@
 var app = require('xfx')
 var h = app.h
-var xtend = app.xtend
+var bindState = app.bindState
 var sendClick = app.sendClick
 
 var pin = require('linchpin')
@@ -8,16 +8,17 @@ var pin = require('linchpin')
 component.render = render
 module.exports = component
 
-function component (state, update) {
-
-  state.actions = xtend(state.actions, actions(update))
+function component () {
+  var state = {}
+  state.actions = bindState(actions(), state)
   return state
 }
 
-function actions (update) {
+function actions () {
   return {
     newGame: function (state) {
       pin.emit('app/newgame')
+      
     }
   }
 }

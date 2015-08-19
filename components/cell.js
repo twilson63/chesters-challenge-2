@@ -1,5 +1,4 @@
 var h = require('xfx').h
-var xtend = require('xfx').xtend
 var _ = require('underscore')
 
 var blank = require('./blank')
@@ -10,13 +9,12 @@ component.render = render
 component.view = view
 module.exports = component
 
-function component (state, update) {
-  state = xtend(state,
-    blank(state, update),
-    chester(state, update),
-    grape(state, update)
-  )
-
+function component () {
+  var state = {
+    blank: blank(),
+    chester: chester(),
+    grape: grape()
+  }
   return state
 }
 
@@ -32,9 +30,9 @@ function view (css) {
 }
 
 function render (state, row, col) {
-  var value = _.findWhere(state.board.board, { row: row, col: col}).value
-  if (state.board.cursor.row === row && state.board.cursor.col === col) {
-    return h(c$$.cell(1), chester.render(state))
+  var value = _.findWhere(state.board, { row: row, col: col}).value
+  if (state.cursor.row === row && state.cursor.col === col) {
+    return h(c$$.cell(1), chester.render(state.row.cell.chester))
   }
-  return h(c$$.cell(1), value === 'blank' ? blank.render(state) : grape.render(state))
+  return h(c$$.cell(1), value === 'blank' ? blank.render(state.row.cell.blank) : grape.render(state.row.cell.grape))
 }

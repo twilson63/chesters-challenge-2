@@ -1,12 +1,15 @@
 var h = require('xfx').h
+var img = require('./img')
 
 component.render = render
 module.exports = component
 
-function component (state, update) {
-  return state
+function component () {
+  return { 
+    img: img('chester.gif')
+  }
 }
 
 function render (state) {
-  return h('img', { src: 'images/chester.gif'})
+  return img.render(state.img)
 }

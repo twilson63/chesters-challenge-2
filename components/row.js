@@ -1,5 +1,4 @@
 var h = require('xfx').h
-var xtend = require('xfx').xtend
 
 var _ = require('underscore')
 var cell = require('./cell')
@@ -8,8 +7,10 @@ component.render = render
 component.view = view
 module.exports = component
 
-function component (state, update) {
-  state = xtend(state, cell(state, update))
+function component () {
+  var state = {
+    cell: cell()
+  }
   return state
 }
 
